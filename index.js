@@ -6,7 +6,7 @@ const app = express();
 app.use(express.static('public'));
 
 const upload = multer();
-const port = 80;
+const port = 8080;
 
 let connection = null;
 
