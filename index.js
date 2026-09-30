@@ -10,17 +10,18 @@ const port = 8080;
 
 let connection = null;
 
-async function query(sql, params) {
-    if (connection === null) {
-        connection = await mysql.createConnection({
-            host: "student-databases.cvode4s4cwrc.us-west-2.rds.amazonaws.com",
-            user: "DYLANLOROWE",
-            password: "XQqXx1991T6S7Cs9jUEWjRCbXrU4cPwKbea",
-            database: "DYLANLOROWE"
-        });
-    }
+const pool = mysql.createPool({
+    host: "student-databases.cvode4s4cwrc.us-west-2.rds.amazonaws.com",
+    user: "DYLANLOROWE",
+    password: "XQqXx1991T6S7Cs9jUEWjRCbXrU4cPwKbea",
+    database: "DYLANLOROWE",
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+});
 
-    const [results] = await connection.execute(sql, params);
+async function query(sql, params) {
+    const [results] = await pool.execute(sql, params);
     return results;
 }
 
